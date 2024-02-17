@@ -55,6 +55,6 @@ class TaskController
     public function destroy(Task $task): JsonResponse
     {
         $this->deleteTaskService->delete($task);
-        return apiResponse(200, 'success', ['message' => 'Task deleted successfully']);
+        return apiResponse(200, 'success', ['message' => 'task_deleted_successfully']);
     }
 }
