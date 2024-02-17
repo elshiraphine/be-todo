@@ -6,6 +6,7 @@ use App\Application\Services\UserServices\UserRegistrationService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -30,7 +31,6 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        // Register the user
         $user = $this->userRegistrationService->register($request->only('name', 'email', 'password'));
 
         return apiResponse(200, 'success', $user);
