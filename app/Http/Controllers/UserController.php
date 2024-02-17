@@ -34,7 +34,8 @@ class UserController extends Controller
                 'password' => 'required|string|min:8',
             ]);
         } catch (ValidationException $e) {
-            if ($e->errors()['email'][0] === 'The email has already been taken.') {
+            $errors = $e->validator->errors()->toArray();
+            if (isset($errors['email']) && $errors['email'][0] === 'The email has already been taken.') {
                 return apiResponse(409, 'error', ['message' => 'email_already_exists']);
             } else {
                 return apiResponse(403, 'error', [
