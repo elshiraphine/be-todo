@@ -28,9 +28,16 @@ class AuthController extends Controller
         $result = $this->loginService->login($credentials);
 
         if ($result) {
-            return apiResponse(200, 'success', $result);
+            return apiResponse(200, 'success', [
+                'message' => 'successfully_logged_in',
+                'token' => $result['token'],
+                'user' => $result['user']
+            ]);
         } else {
-            return apiResponse(401, 'error', ['message' => 'Unauthorized']);
+            return apiResponse(401, 'error', [
+                'message' => 'unauthorized',
+                'error' => 'invalid_credentials'
+            ]);
         }
     }
 
@@ -41,9 +48,12 @@ class AuthController extends Controller
             $token = $request->bearerToken();
             $this->logoutService->logout($token);
 
-            return apiResponse(200, 'success', ['message' => 'Successfully logged out']);
+            return apiResponse(200, 'success', ['message' => 'successfully_logged_out']);
         } catch (\Exception $e) {
-            return apiResponse(400, 'error', ['message' => $e->getMessage()]);
+            return apiResponse(400, 'error', [
+                'message' => 'could_not_log_out',
+                'error' => $e->getMessage()
+            ]);
         }
     }
 }
